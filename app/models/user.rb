@@ -1,0 +1,19 @@
+class User < ActiveRecord::Base
+  attr_accessible :first_name, :last_name, :name, :password
+  attr_accessible :password_confirmation
+
+  validates :name, :presence => true, :uniqueness => true
+  validates :name, :length => { :minimum => 8, :maximum => 32 }
+  validates :name, :format => { :with => /^[a-z]+$/, :message => "Only lower case letters allowed." }
+
+  validates :password, :presence => true, :confirmation => true 
+  validates :password, :length => { :minimum => 8, :maximum => 32 }
+  validates :password, :format => { :with => /[a-z]/, :message => "At least one lower case letter mused be used." }
+  validates :password, :format => { :with => /[A-Z]/, :message => "At least one upper case letter mused be used." }
+  validates :password, :format => { :with => /[0-9]/, :message => "At least one number mused be used." }
+
+  validates :first_name, :presence => true
+
+  validates :last_name, :presence => true
+
+end
