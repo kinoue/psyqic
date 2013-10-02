@@ -10,6 +10,27 @@
   <%= @question.category.name %>
 </p>
 
+<p>
+  <% if @question.options.empty? %>
+    No options for the question have been defined.
+  <% else %>
+    <table>
+      <% @question.options.each do |o| %>
+      <tr>
+        <th>Option: </th>
+        <td><%= o.content %></td>
+        <td> <%= link_to "Predict this!",
+	  		   { :controller => 'predictions',
+	  	         :action => 'create',
+		         :prediction => { :option_id => o.id }},
+		       :method => 'POST' %>
+	    </td> 
+	  </tr>
+	  <% end %>
+	</table>
+  <% end %> 
+</p>
 
+<%= link_to 'Add Option', :controller => 'options', :action => 'new', :question_id => @question.id %> |
 <%= link_to 'Edit', edit_question_path(@question) %> |
 <%= link_to 'Back', questions_path %>

@@ -1,4 +1,10 @@
 Psyqic::Application.routes.draw do
+  resources :predictions
+
+
+  resources :options
+
+
   get "auth/login"
   get "auth/logout"
   post "auth/login"
