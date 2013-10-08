@@ -1,6 +1,10 @@
 class Question < ActiveRecord::Base
-  attr_accessible :category_id, :content
+  attr_accessible :category_id, :user_id, :content
+
   belongs_to :category
-  has_many :options
+  belongs_to :user
+
+  has_many :options, :dependent => :destroy
   has_many :predictions, :through => :options
+
 end

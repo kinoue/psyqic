@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
   attr_accessible :first_name, :last_name, :name, :password
   attr_accessible :password_confirmation
+  attr_accessible :image
+  mount_uploader :image, ImageUploader
 
   validates :name, :presence => true, :uniqueness => true
   validates :name, :length => { :minimum => 8, :maximum => 32 }
@@ -15,5 +17,7 @@ class User < ActiveRecord::Base
   validates :first_name, :presence => true
 
   validates :last_name, :presence => true
+
+  has_many :questions, :dependent => :destroy
 
 end

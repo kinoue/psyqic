@@ -2,6 +2,7 @@
 
 <table>
   <tr>
+    <th></th>
     <th>Content</th>
     <th>Category</th>
     <th>Predictions</th>
@@ -12,6 +13,7 @@
 
 <% @questions.each do |question| %>
   <tr>
+    <td><%= image_tag question.user.image_url, :width => 50, :height => 50 if question.user.image? %></td>
     <td><%= question.content %></td>
     <td><%= question.category.name %></td>
     <td><%= question.predictions.count %></td>

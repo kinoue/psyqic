@@ -25,6 +25,7 @@ class QuestionsController < ApplicationController
   # GET /questions/new.json
   def new
     @question = Question.new
+    @question.user_id = session[:user_id]
 
     respond_to do |format|
       format.html # new.html.erb

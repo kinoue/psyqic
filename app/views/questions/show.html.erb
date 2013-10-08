@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>Content:</b>
+  <%= image_tag @question.user.image_url, :width => 50, :height => 50 if @question.user.image? %>
   <%= @question.content %>
 </p>
 
@@ -19,13 +19,19 @@
       <tr>
         <th>Option: </th>
         <td><%= o.content %></td>
-        <td> <%= link_to "Predict this!",
-	  		   { :controller => 'predictions',
-	  	         :action => 'create',
-		         :prediction => { :option_id => o.id }},
-		       :method => 'POST' %>
-	    </td> 
-	  </tr>
+        <!-- td>(<%= o.predictions.count %>)</td -->
+        <td>
+          <% if @question.predictions.find_by_user_id(session[:user_id]).nil? %>
+              <%= link_to "Predict this!",
+                          { :controller => 'predictions',
+                            :action => 'create',
+                            :prediction => { :option_id => o.id,
+                                             :user_id => session[:user_id] } },
+                          :method => 'POST' %>
+          <% end %>
+        </td>
+
+      </tr>
 	  <% end %>
 	</table>
   <% end %> 

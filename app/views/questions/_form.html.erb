@@ -11,7 +11,11 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <p>
+      By <%= @question.user.first_name + " " + @question.user.last_name %>
+  </p>
+    <%= f.hidden_field :user_id %>
+    <div class="field">
     <%= f.label :content %><br />
     <%= f.text_field :content %>
   </div>
