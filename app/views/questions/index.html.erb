@@ -1,29 +1,32 @@
-<h1>Listing questions</h1>
-
-<table>
-  <tr>
-    <th></th>
-    <th>Content</th>
-    <th>Category</th>
-    <th>Predictions</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
 <% @questions.each do |question| %>
-  <tr>
-    <td><%= image_tag question.user.image_url, :width => 50, :height => 50 if question.user.image? %></td>
-    <td><%= question.content %></td>
-    <td><%= question.category.name %></td>
-    <td><%= question.predictions.count %></td>
-    <td><%= link_to 'Show', question %></td>
-    <td><%= link_to 'Edit', edit_question_path(question) %></td>
-    <td><%= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+<div class="row">
+  <div class="col-sm-1 col-xs-1">
+    <%= link_to(question.user) do %>
+      <%= image_tag(question.user.image_url, :class => 'list-profile-image') if question.user.image? %>
+    <% end %>
+  </div>
+  <div class="col-sm-7 col-xs-7">
+    <%= link_to(question.user, :class=> 'link-text') do %>
+      <%= question.user.first_name + " " + question.user.last_name %> <br/>
+    <% end %>
+    <%= link_to(question, :class=> 'link-text') do %>
+      <%= question.content %>
+    <% end %>
+  </div>
+  <div class="col-sm-2 col-xs-2">
+    <span class="category-label category-<%= question.category.name.downcase[0..2]%>">
+      <%= question.category.name %>
+    <span>
+  </div>
+  <div class="col-sm-2 col-xs-2">
+    <%= image_tag 'crystalball.png'%> 
+    <span class="metadata-text">
+      <%= question.predictions.count %>
+    </span>
+  </div>
+</div>
+<br />
 <% end %>
-</table>
-
 <br />
 
-<%= link_to 'New Question', new_question_path %>
+<%= link_to 'New Question', new_question_path, :class => 'btn btn-primary btn-xs' %>

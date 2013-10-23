@@ -1,41 +1,80 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <%= image_tag @question.user.image_url, :width => 50, :height => 50 if @question.user.image? %>
-  <%= @question.content %>
-</p>
+<div class="row">
+  <div class="col-sm-1 col-xs-1">
+    <%= link_to(@question.user) do %>
+      <%= image_tag(@question.user.image_url, :class => 'list-profile-image') if @question.user.image? %>
+    <% end %>
+  </div>
 
-<p>
-  <b>Category:</b>
-  <%= @question.category.name %>
-</p>
+  <div class="col-sm-6 col-xs-8">
+    <%= link_to(@question.user, :class=> 'link-text') do %>
+      <%= @question.user.first_name + " " + @question.user.last_name %> <br/>
+    <% end %>
+
+    <%= link_to(@question, :class=> 'link-text') do %>
+      <%= @question.content %>
+    <% end %>
+    <br />
+
+    <span class="category-label category-<%= @question.category.name.downcase[0..2]%>">
+      <%= @question.category.name %>
+    </span>
+  </div>
+
+  <div class="col-sm-2 col-xs-2">
+    <%= image_tag 'crystalball.png' %> 
+    <span class="metadata-text">
+      <%= @question.predictions.count %>
+    </span>
+  </div>
+
+</div> <!-- End question panel -->
 
 <p>
   <% if @question.options.empty? %>
     No options for the question have been defined.
   <% else %>
-    <table>
+    <% user_prediction = @question.predictions.find_by_user_id(session[:user_id]) %> <!-- can be nil -->
+    <%= form_tag(predictions_path, :method => 'POST') do %>
+      <%= hidden_field_tag 'prediction[user_id]', session[:user_id] %>
       <% @question.options.each do |o| %>
-      <tr>
-        <th>Option: </th>
-        <td><%= o.content %></td>
-        <!-- td>(<%= o.predictions.count %>)</td -->
-        <td>
-          <% if @question.predictions.find_by_user_id(session[:user_id]).nil? %>
-              <%= link_to "Predict this!",
-                          { :controller => 'predictions',
-                            :action => 'create',
-                            :prediction => { :option_id => o.id,
-                                             :user_id => session[:user_id] } },
-                          :method => 'POST' %>
+      <div class="row">
+        <div class="col-sm-6 col-xs-6">
+          <% if user_prediction %> <!-- user has made a prediction -->
+              <% if user_prediction.option_id == o.id %>
+                  <%= radio_button_tag('prediction[option_id]', o.id, true, :disabled => true)  %>
+              <% else %>
+                  <%= radio_button_tag('prediction[option_id]', o.id, false, :disabled => true)  %>
+              <% end %>
+              <%= label_tag "prediction[option_id_" + o.id.to_s + "]", o.content %>
+          <% else %>
+              <%= radio_button_tag('prediction[option_id]', o.id)  %>
+              <%= label_tag "prediction[option_id_" + o.id.to_s + "]", o.content %>
           <% end %>
-        </td>
-
-      </tr>
-	  <% end %>
-	</table>
-  <% end %> 
-</p>
+        </div>
+      </div>
+            <% if @question.predictions.find_by_user_id(session[:user_id]) %>
+        <!-- if the user has made a prediction, display the current predictions -->
+        <div class='row'>
+          <div class="col-sm-6 col-xs-6" style="padding-left: 50px;">
+            <% percentile = o.predictions.count.to_f / o.question.predictions.count.to_f * 100 %>
+            <div class="progress">
+              <%= o.predictions.count %>
+              <div class="progress-bar" role="progressbar" style="width: <%= percentile %>%;">
+              </div>
+            </div>
+          </div>
+        </div>
+        <% end %> <!-- end of if -->
+      <% end %> <!-- end of .each -->
+      <% if @question.predictions.find_by_user_id(session[:user_id]).nil? %>
+      <!-- if user hasn't made a prediction display the prediction button -->
+        <%= submit_tag 'Submit Your Prediction', :class => 'btn btn-primary btn-sm' %>
+      <% end %>
+    <% end %> <!-- end of form -->
+  <% end %> <!-- end of else -->
+ </p>
 
 <%= link_to 'Add Option', :controller => 'options', :action => 'new', :question_id => @question.id %> |
 <%= link_to 'Edit', edit_question_path(@question) %> |
