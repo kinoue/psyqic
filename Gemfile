@@ -38,3 +38,4 @@ gem 'jquery-rails'
 # gem 'debugger'
 
 gem 'carrierwave'
+# gem 'retina_rails', :git => 'https://github.com/jhnvz/retina_rails'

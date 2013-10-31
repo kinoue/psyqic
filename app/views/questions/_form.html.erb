@@ -1,31 +1,65 @@
-<%= form_for(@question) do |f| %>
-  <% if @question.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@question.errors.count, "error") %> prohibited this question from being saved:</h2>
+<div class="container">
+  <%= form_for(@question) do |f| %>
+    <% if @question.errors.any? %>
+      <div class="alert alert-danger">
+        <h4><%= pluralize(@question.errors.count, "error") %> prohibited this question from being saved:</h4>
+        <ul>
+          <% @question.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
 
-      <ul>
-      <% @question.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+    <div class="field row">
+      <div class="col-sm-2 col-xs-12">
+        <%= f.label :content, 'Question:' %>
+      </div>
+      <div class="col-sm-10 col-xs-12">
+        <%= f.text_area :content, :rows => 5 %>
+      </div>
+      <br />
     </div>
-  <% end %>
 
-  <p>
-      By <%= @question.user.first_name + " " + @question.user.last_name %>
-  </p>
-    <%= f.hidden_field :user_id %>
-    <div class="field">
-    <%= f.label :content %><br />
-    <%= f.text_field :content %>
+      <div class="field row">
+        <div class="col-sm-2 col-xs-12">
+          <%= label_tag 'By:' %>
+        </div>
+        <div class="col-sm-10 col-xs-12">
+          <%= @question.user.first_name + " " + @question.user.last_name %>
+          <%= f.hidden_field :user_id %>
+        </div>
+      </div>
+      <br />
+
+      <div class="field row">
+        <div class="col-sm-2 col-xs-12">
+          <%= f.label :category_id, 'Category:' %>
+        </div>
+        <div class="col-sm-10 col-xs-12">
+          <% all_categories = Category.all %>
+          <% menu_items = all_categories.map { |c| [ c.name, c.id ] } %>
+          <%= f.select :category_id, menu_items, :class => 'form-control' %>
+        </div>
+      </div>
+      <br />
+
+      <div class="field row">
+        <div class="col-sm-2 col-xs-12">
+        <%= f.label :correct_option_id, 'Correct Option:' %>
+        </div>
+        <div class="col-sm-10 col-xs-12">
+        <% menu_items = [['Not decided', '']] + @question.options.map { |o| [ o.content, o.id ] } %>
+        <%= f.select :correct_option_id, menu_items %>
+        </div>
+      </div>
+      <br />
+
+      <div class="actions row">
+        <div class="col-sm-12 col-xs-12">
+        <%= f.submit :class => 'btn btn-primary btn-sm' %>
+        <%= link_to 'Cancel', :back, :class => 'btn btn-default btn-sm' %>
+        </div>
+      </div>
+  <% end %>
   </div>
-  <div class="field">
-    <%= f.label :category_id %><br />
-    <% all_categories = Category.all %>
-    <% menu_items = all_categories.map { |c| [ c.name, c.id ] } %>
-    <%= f.select :category_id, menu_items %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>

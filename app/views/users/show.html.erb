@@ -1,22 +1,62 @@
 <p id="notice"><%= notice %></p>
-
+<div class="container">
 <div class="row">
   <div class="col-sm-2 col-xs-2">
       <%= image_tag @user.image_url, :class=>'profile-image' if @user.image? %>
   </div>
-  <div class="col-sm-6 col-xs-4">
+  <div class="col-sm-4 col-xs-4">
     <span class='user-name'><%= @user.first_name + " " + @user.last_name %></span> <br />
-
-    <span class="metadata-text">
+    <%= @user.location %> <br />
+    <div class="progress" style="margin-bottom: 10px;">
+      <% percentile = @user.accuracy * 100 %>
+      <%= percentile.round(2) %>%
+      <div class="progress-bar" style="width: <%= percentile %>%;"></div>
+    </div>
+    <div class="metadata-text">
       Predictions: <%= @user.predictions.count %>
-    </span>
-    <br />
-    <span class="metadata-text">
-        Questions: <%= @user.questions.count %> 
-    </span>
-    <br /> <br />
-    <%= link_to 'Edit Profile', edit_user_path(@user), :class=>"btn btn-primary btn-xs" %>
+      Questions: <%= @user.questions.count %>
+    </div>
   </div>
-
 </div>
+<div class="row">
+  <div class="col-sm-6 col-xs-6">
+    <h4>Predictions</h4>
+      <table class="prediction-stats">
+        <tr>
+          <th>Correct:</th>
+          <td width="200">
+            <div class="progress" style="margin-bottom: 5px;">
+            <%= @user.correct_predictions.count %>
+            <% percentile = @user.correct_predictions.count.to_f / @user.predictions.count * 100 %>
+            <div class="progress-bar progress-bar-success" style="width: <%= percentile %>%;"> </div>
+          </div>
+          </td>
+        </tr>
+        <tr><th>Wrong:</th>
+          <td width="200">
+            <div class="progress" style="margin-bottom: 5px;">
+            <%= @user.wrong_predictions.count %>
+            <% percentile = @user.wrong_predictions.count.to_f / @user.predictions.count * 100 %>
+            <div class="progress-bar progress-bar-danger" style="width: <%= percentile %>%;"> </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th>Pending:</th>
+          <td width="200">
+            <div class="progress" style="margin-bottom: 5px;">
+            <%= @user.pending_predictions.count %>
+            <% percentile = @user.pending_predictions.count.to_f / @user.predictions.count * 100 %>
+            <div class="progress-bar progress-bar-warning" style="width: <%= percentile %>%;"> </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    <br />
+    <%= link_to 'Edit Profile', edit_user_path(@user), :class=>"btn btn-primary" %>
+  </div>
+ </div>
+</div>
+</div>
+
 

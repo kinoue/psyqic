@@ -1,5 +1,5 @@
 body {
-  padding-top: 60px;
+  padding-top: 53px;
   color: #404040;
   background-color: #FFFFFF;
 }
@@ -58,7 +58,12 @@ a:hover.btn
 
 a.link-text
 {
-  color: #404040;
+    color: #404040;
+}
+
+a.btn-default, a:visited.btn-default
+{
+    color: #0f0f0f;
 }
 
 a:hover.link-text
@@ -67,8 +72,11 @@ a:hover.link-text
   text-decoration: none;
 }
 
+
 .category-label
 {
+    display: inline-block;
+    margin-top: 10px;
     padding: 3px 3px 3px 3px;
     border-radius: 3px;
     color: #FFFFFF;
@@ -112,6 +120,7 @@ a:hover.link-text
 input[type="radio"] {
   display: none;
 }
+
 input[type="radio"] + label{
     background:url('qi_gray.png') no-repeat;
     height: 26px;
@@ -124,7 +133,107 @@ input[type="radio"] + label{
 input[type="radio"]:checked +label {
     background:url('qi_blue.png') no-repeat;
     height: 26px;
-    width: 200px; 
+    width: 200px;
     display:inline-block;
     padding-left: 35px;
 }
+
+input[type="radio"].correct-prediction +label {
+    background:url('qi_neon.png') no-repeat;
+    height: 26px;
+    width: 200px;
+    display:inline-block;
+    padding-left: 35px;
+}
+
+input[type="radio"].wrong-prediction +label {
+    background:url('qi_red.png') no-repeat;
+    height: 26px;
+    width: 200px;
+    display:inline-block;
+    padding-left: 35px;
+}
+
+
+
+
+.prediction-stats th
+{
+    vertical-align: top;
+}
+
+h3 {
+    margin-top: 0px;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-bottom: 10px;
+    background-color: #F0F0F0;
+    border-bottom-color: #A0A0A0;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+
+.navbar
+{
+    margin-bottom: 0px;
+}
+
+.top-space
+{
+    height: 20px;
+}
+
+a.qi-navbar-button {
+    position: relative;
+    margin-right: 15px;
+    padding: 9px 10px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+
+a.qi-navbar-button:link .icon-bar {
+    display: block;
+    width: 18px;
+    height: 1px;
+    border-radius: 1px;
+    background-color: #808080;
+    margin: 0px 0px 0px 0px;
+}
+
+a.qi-navbar-button:link .icon-vertical-bar {
+    display: block;
+    width: 1px;
+    height: 8px;
+    border-radius: 1px;
+    margin: 0px 0px 0px 8px;
+    background-color: #808080;
+}
+
+.nav > li > a.qi-navbar-button:hover .icon-bar,
+.nav > li > a.qi-navbar-button:hover .icon-vertical-bar
+{
+    background-color: #FFFFFF;
+}
+
+
+.col-xs-1,
+.col-xs-2,
+.col-xs-3,
+.col-xs-4,
+.col-xs-5,
+.col-xs-6,
+.col-xs-7,
+.col-xs-8,
+.col-xs-9,
+.col-xs-10,
+.col-xs-11 {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
+

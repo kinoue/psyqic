@@ -1,25 +1,31 @@
-<p id="notice"><%= notice %></p>
+<div class="top-space">
+</div>
+<div class="container">
 
 <div class="row">
-  <div class="col-sm-1 col-xs-1">
+  <div class="col-sm-1 col-xs-2">
     <%= link_to(@question.user) do %>
-      <%= image_tag(@question.user.image_url, :class => 'list-profile-image') if @question.user.image? %>
+        <%= image_tag(@question.user.image_url, :class => 'list-profile-image') if @question.user.image? %>
     <% end %>
   </div>
 
-  <div class="col-sm-6 col-xs-8">
-    <%= link_to(@question.user, :class=> 'link-text') do %>
-      <%= @question.user.first_name + " " + @question.user.last_name %> <br/>
-    <% end %>
+  <div class="col-sm-9 col-xs-8">
+    <div class="row">
+      <div class="col-sm-7 col-xs-12">
+        <%= link_to(@question.user, :class=> 'link-text') do %>
+            <%= @question.user.first_name + " " + @question.user.last_name %> <br/>
+        <% end %>
 
-    <%= link_to(@question, :class=> 'link-text') do %>
-      <%= @question.content %>
-    <% end %>
-    <br />
-
-    <span class="category-label category-<%= @question.category.name.downcase[0..2]%>">
-      <%= @question.category.name %>
-    </span>
+        <%= link_to(@question, :class=> 'link-text') do %>
+            <%= @question.content %>
+        <% end %>
+      </div>
+      <div class="col-sm-2 col-cs-12">
+        <div class="category-label category-<%= @question.category.name.downcase[0..2]%>">
+          <%= @question.category.name %>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="col-sm-2 col-xs-2">
@@ -30,6 +36,7 @@
   </div>
 
 </div> <!-- End question panel -->
+<hr />
 
 <p>
   <% if @question.options.empty? %>
@@ -43,9 +50,17 @@
         <div class="col-sm-6 col-xs-6">
           <% if user_prediction %> <!-- user has made a prediction -->
               <% if user_prediction.option_id == o.id %>
-                  <%= radio_button_tag('prediction[option_id]', o.id, true, :disabled => true)  %>
+                  <% if o.id == o.question.correct_option_id %>
+                      <%= radio_button_tag('prediction[option_id]', o.id, true, :disabled => true, :class => 'correct-prediction')  %>
+                  <% else %>
+                      <%= radio_button_tag('prediction[option_id]', o.id, true, :disabled => true)  %>
+                  <% end %>
               <% else %>
-                  <%= radio_button_tag('prediction[option_id]', o.id, false, :disabled => true)  %>
+                  <% if o.id == o.question.correct_option_id %>
+                      <%= radio_button_tag('prediction[option_id]', o.id, false, :disabled => true, :class => 'wrong-prediction')  %>
+                  <% else %>
+                      <%= radio_button_tag('prediction[option_id]', o.id, false, :disabled => true)  %>
+                  <% end %>
               <% end %>
               <%= label_tag "prediction[option_id_" + o.id.to_s + "]", o.content %>
           <% else %>
@@ -54,7 +69,7 @@
           <% end %>
         </div>
       </div>
-            <% if @question.predictions.find_by_user_id(session[:user_id]) %>
+        <% if user_prediction || @question.correct_option %>
         <!-- if the user has made a prediction, display the current predictions -->
         <div class='row'>
           <div class="col-sm-6 col-xs-6" style="padding-left: 50px;">
@@ -68,14 +83,14 @@
         </div>
         <% end %> <!-- end of if -->
       <% end %> <!-- end of .each -->
-      <% if @question.predictions.find_by_user_id(session[:user_id]).nil? %>
+      <% if user_prediction.nil? && ! @question.correct_option %>
       <!-- if user hasn't made a prediction display the prediction button -->
-        <%= submit_tag 'Submit Your Prediction', :class => 'btn btn-primary btn-sm' %>
+        <%= submit_tag 'Submit', :class => 'btn btn-success' %>
       <% end %>
-    <% end %> <!-- end of form -->
+      <%= link_to 'Edit', edit_question_path(@question), :class => 'btn btn-primary' %>
+<% end %> <!-- end of form -->
   <% end %> <!-- end of else -->
- </p>
-
-<%= link_to 'Add Option', :controller => 'options', :action => 'new', :question_id => @question.id %> |
-<%= link_to 'Edit', edit_question_path(@question) %> |
-<%= link_to 'Back', questions_path %>
+<br />
+<%= link_to 'Add Option', {:controller => 'options', :action => 'new', :question_id => @question.id}, :class => 'btn btn-primary' %>
+<%= link_to 'Back', :back, :class => 'btn btn-default' %>
+</div>
