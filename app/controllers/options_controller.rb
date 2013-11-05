@@ -1,4 +1,18 @@
 class OptionsController < ApplicationController
+
+  before_filter :authorize_question_creator
+
+  def authorize_question_creator
+    user = User.find(session[:user_id])
+    question = Question.find(params[:question_id])
+    if user.id != question.user_id
+      flash[:error] = 'The action is only allowed to the creator of the question.'
+      redirect_to :back
+    end
+  end
+
+
+
   # GET /options
   # GET /options.json
   def index

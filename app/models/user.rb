@@ -1,8 +1,12 @@
 class User < ActiveRecord::Base
+
+  ROLE_USER = 1
+  ROLE_ADMIN = 2
+
   attr_accessible :first_name, :last_name, :name, :password
   attr_accessible :password_confirmation
   attr_accessible :image
-  attr_accessible :gender, :location
+  attr_accessible :gender, :location, :role
   mount_uploader :image, ImageUploader
 
   validates :name, :presence => true, :uniqueness => true

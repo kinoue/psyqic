@@ -1,5 +1,10 @@
 <p id="notice"><%= notice %></p>
 <div class="container">
+  <% if flash[:error] %>
+      <div class="alert alert-danger">
+        <%= flash[:error] %>
+      </div>
+  <% end %>
 <div class="row">
   <div class="col-sm-2 col-xs-2">
       <%= image_tag @user.image_url, :class=>'profile-image' if @user.image? %>
@@ -53,7 +58,9 @@
         </tr>
       </table>
     <br />
+    <% if user_self? %>
     <%= link_to 'Edit Profile', edit_user_path(@user), :class=>"btn btn-primary" %>
+    <% end %>
   </div>
  </div>
 </div>

@@ -1,4 +1,23 @@
 class QuestionsController < ApplicationController
+
+  # before_filter :authorize_question_creator, :only => [:edit, :update, :destroy]
+  helper_method :question_creator?
+
+  def authorize_question_creator
+    if ! question_creator?
+      flash[:error] = 'The action is only allowed to the creator of the question.'
+      redirect_to :back
+    end
+  end
+
+  def question_creator?
+    true
+    # user = User.find(session[:user_id])
+    # question = Question.find(params[:id])
+    # user.id == question.user_id
+  end
+
+
   # GET /questions
   # GET /questions.json
   def index

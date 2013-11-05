@@ -1,10 +1,10 @@
 <h3>Login</h3>
 <div class="container">
-    <% if flash[:error] %>
+  <% if flash[:error] %>
       <div class="alert alert-danger">
-         <%= flash[:error] %>
-       </div>
-     <% end %>
+        <%= flash[:error] %>
+      </div>
+  <% end %>
   <%= form_tag do %>
       <div class="row">
         <div class="col-sm-2 col-xs-12">
