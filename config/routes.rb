@@ -1,14 +1,11 @@
 Psyqic::Application.routes.draw do
+  get  'auth/login'
+  get  'auth/logout'
+  post 'auth/login'
+  match 'auth/:provider/callback', to: 'auth#callback'
+
   resources :predictions
-
-
   resources :options
-
-
-  get "auth/login"
-  get "auth/logout"
-  post "auth/login"
-
   resources :users
   resources :questions
   resources :categories

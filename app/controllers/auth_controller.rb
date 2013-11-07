@@ -1,4 +1,5 @@
 class AuthController < ApplicationController
+  skip_before_filter :authenticate
 
   def login
     if request.post?
@@ -16,5 +17,11 @@ class AuthController < ApplicationController
   def logout
     session[:user_id] = nil
     redirect_to :controller => 'auth', :action => 'login'
+  end
+
+  def callback
+    user = User.from_omniauth(env["omniauth.auth"])
+    session[:user_id] = user.id
+    redirect_to root_url
   end
 end

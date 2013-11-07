@@ -25,9 +25,16 @@
       </div>
       <br />
       <div class='row'>
-        <div class="col-sm-12 col-xs-12">
+        <div class="col-sm-6 col-xs-12" style="text-align: right;">
           <%= submit_tag "Login", :class => 'btn btn-primary' %>
         </div>
       </div>
+      <br />      <br />
+      <div class="row">
+        <div class="col-sm-6 col-xs-12">
+          <%= link_to 'Login with Facebook', '/auth/facebook', :class => 'btn btn-primary' %>
+        </div>
+      </div>
+      <br />
   <% end %>
 </div>

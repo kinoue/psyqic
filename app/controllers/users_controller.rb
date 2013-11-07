@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   skip_before_filter :authenticate, :only => [:new, :create]
-
   before_filter :authorize_user_self, :only => [:edit, :update, :destroy]
   helper_method :user_self?
 
