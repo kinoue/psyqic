@@ -1,5 +1,6 @@
 class Question < ActiveRecord::Base
   attr_accessible :category_id, :user_id, :content, :correct_option_id
+  attr_accessible :label_ids
 
   belongs_to :category
   belongs_to :user
