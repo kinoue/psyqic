@@ -25,6 +25,12 @@
         <%= link_to(@question, :class=> 'link-text') do %>
             <%= @question.content %>
         <% end %>
+        <br />
+        <% @question.labels.each do |label| %>
+            <div class="category-label category-<%= @question.category.name.downcase[0..2]%>">
+              <%= label.name %>
+            </div>
+        <% end %>
       </div>
       <div class="col-sm-2 col-cs-12">
         <div class="category-label category-<%= @question.category.name.downcase[0..2]%>">

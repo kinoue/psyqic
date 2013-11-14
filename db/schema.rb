@@ -19,6 +19,17 @@ ActiveRecord::Schema.define(:version => 20131107183641) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "labels", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "labels_questions", :id => false, :force => true do |t|
+    t.integer "label_id"
+    t.integer "question_id"
+  end
+
   create_table "options", :force => true do |t|
     t.integer  "question_id"
     t.string   "content"

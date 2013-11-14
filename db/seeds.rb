@@ -21,7 +21,7 @@ cat_t = Category.create(:name => "Sci. & Tech.")
 User.destroy_all
 
 f1 = User.new(:first_name => 'Sophia', :last_name => 'Smith', :name => 'sophiasmith', :password => 'SU2orange!', :password_confirmation => 'SU2orange!', :gender => 'female', :location => 'Boulder, CO', :role => User::ROLE_ADMIN)
-f1.image = File.open('/f/1.jpg')
+f1.image = File.open(IMAGE_FOLDER + '/f/1.jpg')
 f1.save
 
 m1 = User.new(:first_name => 'Jacob', :last_name => 'Johnson', :name => 'jacobjohnson', :password => 'SU2orange!', :password_confirmation => 'SU2orange!', :gender => 'male', :location => 'Syracuse, NY')
@@ -439,20 +439,37 @@ def random_oid(q)
   (rand * (o_max + 1 - o_min)).floor + o_min
 end
 
+
+
+Label.destroy_all
+label_obama = Label.create(:name => "Obama")
+label_nfl = Label.create(:name => "NFL")
+label_steelers = Label.create(:name => "Steelers")
+label_jets = Label.create(:name => "Jets")
+label_dancing = Label.create(:name => "Dancing with Stars")
+label_twitter = Label.create(:name => "Twitter")
+label_ipo = Label.create(:name => "IPO")
+
+
 Question.destroy_all
 q1 = Question.create :content => "How long will the government shutdown last?", :user_id => random_uid, :category_id => cat_p.id
 q1.options.create :content => "1 to 3 days"
 q1.options.create :content => "4 to 7 days"
 q1.options.create :content => "1 to 2 weeks"
 q1.options.create :content => "more than 2 weeks"
+q1.labels.push  label_obama
 
 q2 = Question.create :content => "Will the Pittsburgh Steelers end their losing streak with a win against the NY Jets on Sunday?", :user_id => random_uid, :category_id => cat_s.id
 q2.options.create :content => "Yes!"
 q2.options.create :content => "Ha ha ha dream on..."
+q2.labels.push label_nfl
+q2.labels.push label_steelers
+q2.labels.push label_jets
 
 q3 = Question.create :user_id => random_uid, :category_id => cat_s.id, :content => "Will the Buffalo Bills beat the Cincinnati Bengals on Sunday?" 
 q3.options.create :content => "Yes!"
 q3.options.create :content => "No way!"
+q3.labels.push label_nfl
 
 q4 = Question.create :user_id => random_uid, :category_id => cat_e.id, :content => "Who will win Season 17 of Dancing with the Stars?"
 q4.options.create :content => "Elizabeth & Val"
@@ -467,12 +484,16 @@ q4.options.create :content => "Leah & Tony"
 q4.options.create :content => "Amber & Derek"
 q4.options.create :content => "Other"
 
+q4.labels.push label_dancing
+
 q5 = Question.create :user_id => random_uid, :category_id => cat_e.id, :content => "How much will Twitter's IPO price be?"
 q5.options.create :content => "Less than $20"
 q5.options.create :content => "From $20 to $25"
 q5.options.create :content => "From $25 to $30"
 q5.options.create :content => "From $30 to $35"
 q5.options.create :content => "More than $35"
+
+q5.labels.push label_twitter
 
 300.times do 
   q = Question.find(random_qid)
@@ -483,4 +504,3 @@ q5.options.create :content => "More than $35"
   end
 
 end
-
